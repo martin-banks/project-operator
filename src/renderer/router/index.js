@@ -7,12 +7,28 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'landing-page',
+      name: 'system-information',
       component: require('@/components/LandingPage').default
     },
     {
-      path: '*',
-      redirect: '/'
-    }
+      path: '/newproject',
+      name: 'new-project',
+      component: require('@/views/NewProject').default,
+    },
+    {
+      path: '/myprojects',
+      name: 'my-projects',
+      component: require('@/views/MyProjects').default,
+    },
+    {
+      path: '/archive',
+      name: 'archive-projects',
+      component: require('@/views/ArchiveProjects').default,
+    },
+    {
+      path: '/settings',
+      name: 'app-settings',
+      component: require('@/views/AppSettings').default,
+    },
   ]
 })

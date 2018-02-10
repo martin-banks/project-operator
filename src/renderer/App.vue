@@ -1,15 +1,61 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div class="background"></div>
+    <window-drag />
+    <!-- <div class="drag" ></div> -->
+    <div class="view__wrapper">
+      <nav-container :active="active"/>
+      <router-view />
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'project-operator'
+import NavContainer from '@/components/Nav/NavContainer'
+import WindowDrag from '@/components/Nav/WindowDrag'
+export default {
+  name: 'project-operator',
+  components: {
+    NavContainer,
+    WindowDrag,
+  },
+  data () {
+    return {
+      active: this.$route.path
+    }
+  },
+  beforeMount () {
+    // console.log(this.$electron)
+  },
+  watch: {
+    $route: function (val) {
+      console.log({ val })
+      this.active = val.path
+    }
   }
+
+}
 </script>
 
-<style>
-  /* CSS */
+<style lang="sass">
+@import ./styleguide/reset
+@import ./styleguide/index.sass
+
+div.background
+  position: fixed
+  z-index: -1
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background: linear-gradient(#333, #111)
+  // transform: scale(1.5)
+  // +sample
+
+.view__wrapper
+  position: relative
+  padding: 0 60px
+
+
+
 </style>

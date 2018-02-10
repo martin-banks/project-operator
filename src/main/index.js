@@ -20,9 +20,17 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
+    width: 1000,
+    titleBarStyle: 'hiddenInset',
+    resizable: true,
+    darkTheme: true,
+    hasShadow: true,
+    opacity: 1,
+    webPreferences: {
+      experimentalFeatures: true
+    }
   })
-
+  mainWindow.closeDevTools()
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {

@@ -1,5 +1,7 @@
 <template>
-  <h1>Hello world</h1>
+<div>
+  
+</div>
 </template>
 
 <script>
@@ -15,5 +17,6 @@
 </script>
 
 <style scoped lang="sass">
-  
+h1
+
 </style>
