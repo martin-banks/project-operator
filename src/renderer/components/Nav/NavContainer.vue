@@ -32,6 +32,10 @@
       return {
         links: [
           {
+            text: 'Setup',
+            path: '/setup'
+          },
+          {
             text: 'New project',
             path: '/newproject'
           },
@@ -61,33 +65,10 @@
           .filter(l => l)[0]
         return activeIndex - 1
       },
-      getMarkerPos () {
-        if (!this.$el) return
-        const left = this.$el.querySelectorAll('li')[this.getMarkerIndex].offsetLeft
-        this.activePos = left
-        return left
-      },
-      getActiveWidth () {
-        if (!this.$el) return
-        const { width } = this.$el.querySelectorAll('li')[this.getMarkerIndex].getBoundingClientRect()
-        this.activeWidth = width
-        return width
-      }
     },
-    // beforeMount () {
-    //   const { active, links } = this
-    //   const activeLink = links.forEach((l, i) => {
-    //     if (l.path === active) this.markerPos = i
-    //   })
       
-    // },
-    mounted () {
-      if (!this.$el) return
-      const { width, left } = this.$el.querySelectorAll('li')[this.getMarkerIndex].getBoundingClientRect()
-      this.activeIndex = this.getMarkerIndex
-      this.activeWidth = width
-      this.activePos = left
-    }
+    beforeMount () {},
+    mounted () {},
   }
 </script>
 
@@ -104,11 +85,9 @@
     position: relative
     padding: 0
     margin: 0
-    // margin-bottom: 8px
     line-height: 1
 
   li
-    // position: absolute
     display: block
     left: 0
     top: 0
@@ -117,10 +96,14 @@
     font-size: 24px
     line-height: 1
     margin: 0 16px
+    &:first-of-type
+      margin-left: 0
+    &:right-of-type
+      margin-right: 0
     *
       color: white
       text-decoration: none
-      // border-bottom: solid 3px gold
+
 
 .track
   position: absolute
