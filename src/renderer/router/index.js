@@ -7,8 +7,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'system-information',
-      component: require('@/components/LandingPage').default
+      name: 'app-setup',
+      component: require('@/views/AppSetup').default
+    },
+    {
+      path: '/setup',
+      name: 'app-setup',
+      component: require('@/views/AppSetup').default
     },
     {
       path: '/newproject',
