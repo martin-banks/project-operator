@@ -1,4 +1,7 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+
+import fs from 'fs'
+import path from 'path'
 
 /**
  * Set `__static` path to static files in production
@@ -71,3 +74,20 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+
+
+ ipcMain.on('openFileBrowser', e => {
+   const reply = data => e.sender.send('fileLocation', data)
+  //  console.log({ data })
+   dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']}, data => {
+     const newLocation = path.join(data[0], 'dna_projects_new')
+     fs.mkdir(newLocation, (err, response) => {
+       if (err) {
+         console.log(err)
+         reply(err)
+         return
+       }
+       reply({ response, newLocation })
+     })
+   })
+ })
