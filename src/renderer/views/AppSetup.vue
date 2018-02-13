@@ -41,21 +41,54 @@ export default {
         }
       },
       location: null,
+      settingsLocation: null,
+      userSettings: {},
+      readStuff: null
     }
   },
   methods: {
     chooseLocation () {
       this.$electron.ipcRenderer.send('openFileBrowser')
     },
-  },
-  computed: {
-    recieveLocation () {
-      this.$electron.ipcRenderer.on('fileLocation', (e, data) => {
-        console.log('fileLocation data', data)
-        this.location = data
+    writeSettings () {
+      const settings = JSON.stringify(this.userSettings, 'utf-8', 2)
+      fs.writeFile(`${this.settingsLocation}/operatorSettings.json`, settings, (err, data) => {
+        if (err) return console.error(err)
+        console.log('done writing')
+        this.readSettings()
+      })
+    },
+    readSettings () {
+      console.log('starting read')
+      const file = `${this.settingsLocation}/operatorSettings.json`
+      fs.readFile(file, (err, data) => {
+        if (err) return console.error(err)
+        const settings = JSON.parse(data)
+        console.log({settings})
+        this.readStuff = settings
 
       })
-    }
+    },
+    
+  },
+  computed: {
+    receiveLocation () {
+      this.$electron.ipcRenderer.on('fileLocation', (e, data) => {
+        console.log('fileLocation data', data)
+        // this.location = data.newLocation
+        this.userSettings.project_location = data.newLocation
+        this.writeSettings()
+      })
+    },
+  },
+  // lifecycle
+  beforeMount () {
+    this.settingsLocation = this.$electron.remote.app.getPath('userData')
+    this.readSettings()
+  },
+  mounted () {
+    // this.$electron.ipcRenderer.send('loaded')
+    // this.$electron.ipcRenderer.on('home', (e, data) => this.location = data)
   }
 
 }

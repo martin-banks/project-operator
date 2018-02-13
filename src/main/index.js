@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 
 import fs from 'fs'
 import path from 'path'
+const user = require('os').userInfo().username
 
 /**
  * Set `__static` path to static files in production
@@ -21,9 +22,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 768,
     useContentSize: true,
-    width: 1000,
+    width: 1024,
     titleBarStyle: 'hiddenInset',
     resizable: true,
     darkTheme: true,
@@ -76,18 +77,22 @@ app.on('ready', () => {
  */
 
 
- ipcMain.on('openFileBrowser', e => {
-   const reply = data => e.sender.send('fileLocation', data)
-  //  console.log({ data })
-   dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']}, data => {
-     const newLocation = path.join(data[0], 'dna_projects_new')
-     fs.mkdir(newLocation, (err, response) => {
-       if (err) {
-         console.log(err)
-         reply(err)
-         return
-       }
-       reply({ response, newLocation })
-     })
-   })
- })
+ipcMain.on('openFileBrowser', e => {
+  const reply = data => e.sender.send('fileLocation', data)
+//  console.log({ data })
+  dialog.showOpenDialog(mainWindow, {properties: ['openDirectory']}, data => {
+    const newLocation = path.join(data[0], 'dna_projects_new')
+    fs.mkdir(newLocation, (err, response) => {
+      if (err) {
+        console.log(err)
+        reply(err)
+        return
+      }
+      reply({ response, newLocation })
+    })
+  })
+})
+
+ipcMain.on('loaded', e => {
+  e.sender.send('home', __dirname)
+})
