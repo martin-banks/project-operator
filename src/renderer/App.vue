@@ -5,7 +5,7 @@
     <!-- <div class="drag" ></div> -->
     <div class="view__wrapper">
       <nav-container :active="active"/>
-      <router-view />
+      <router-view :userSettings="userSettings" />
     </div>
   </div>
 </template>
@@ -21,11 +21,17 @@ export default {
   },
   data () {
     return {
-      active: this.$route.path
+      active: this.$route.path,
+      userSettings: {},
     }
   },
   beforeMount () {
-    // console.log(this.$electron)
+    this.$electron.ipcRenderer.send('readSettings')
+
+    this.$electron.ipcRenderer.on('userSettings', (event, response) => {
+      console.log('user settings', response)
+      this.userSettings = response.settings
+    })
   },
   watch: {
     $route: function (val) {

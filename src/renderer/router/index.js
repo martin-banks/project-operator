@@ -10,11 +10,11 @@ export default new Router({
       name: 'app-setup',
       component: require('@/views/AppSetup').default
     },
-    {
-      path: '/setup',
-      name: 'app-setup',
-      component: require('@/views/AppSetup').default
-    },
+    // {
+    //   path: '/setup',
+    //   name: 'app-setup',
+    //   component: require('@/views/AppSetup').default
+    // },
     {
       path: '/newproject',
       name: 'new-project',
