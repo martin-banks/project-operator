@@ -2,7 +2,9 @@
   <div>
     <h1>My projects</h1>
     <div class="projects">
-      <p>{{ files || 'Loading...' }}</p>
+      <p v-for="(file, i) in fileList">
+        {{ file }}
+      </p>
 
     </div>
   </div>
@@ -10,23 +12,29 @@
 
 <script>
 import fs from 'fs'
+import path from 'path'
+
 export default {
   name: 'my-project',
-  props: [],
+  props: [
+    'userSettings',
+  ],
   components: {},
   data () {
     return {
-      files: false
+      fileList: false
     }
   },
-  methods: {},
-  created () {},
+
   mounted () {
-    fs.readdir(__dirname, (err, data) => {
-      if (err) return window.alert(err)
-      this.files = data
+    fs.readdir(path.resolve(this.userSettings.project_location), (err, data) => {
+      if (err) return console.log(err)
+      console.log({ data })
+      this.fileList = data
+
     })
-  }
+  },
+
 }
 </script>
 

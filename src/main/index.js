@@ -140,7 +140,7 @@ ipcMain.on('readSettings', e => {
     settingsFile.write().then(writeResponse => {
       console.log('Settings created', writeResponse)
       settingsFile.read().then(newFileResponse => {
-        e.returnValue('userSettings', newFileResponse)
+        e.sender.send('userSettings', newFileResponse)
       })
       .catch(console.log)
     })
