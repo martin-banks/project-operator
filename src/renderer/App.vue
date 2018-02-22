@@ -5,7 +5,9 @@
     <!-- <div class="drag" ></div> -->
     <div class="view__wrapper">
       <nav-container :active="active"/>
-      <router-view :userSettings="userSettings" />
+      <transition name="component">
+        <router-view :userSettings="userSettings" :key="$route.path" />
+      </transition>
     </div>
   </div>
 </template>
@@ -60,7 +62,7 @@ div.background
 
 .view__wrapper
   position: relative
-  padding: 0 60px
+  padding: 80px 60px
 
 
 

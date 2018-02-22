@@ -1,15 +1,13 @@
 <template>
-  <div>
+
     <div class="project__list">
       <project-entry 
         v-for="(file, i) in fileList" 
         :key="i" 
         :file="file"
       />
-
-
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -55,7 +53,7 @@ export default {
 <style scoped lang="sass">
 @import ../styleguide/index
 
-
+.project__list
 
 
 </style>

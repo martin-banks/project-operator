@@ -13,3 +13,17 @@
   border-radius: 12px
 
 
+
+// standard transitions to show / hide components
+[class*=component]
+
+.component-enter-active
+  transition: all 300ms ease 300ms
+
+.component-leave-active
+  transition: all 300ms ease
+
+.component-enter, .component-leave-to
+  // transform: translateY(100px)
+  opacity: 0
+  transform: translateY(100px)
