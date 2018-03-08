@@ -4,7 +4,7 @@
     <window-drag />
     <!-- <div class="drag" ></div> -->
     <div class="view__wrapper">
-      <nav-container :active="active"/>
+      <!-- <nav-container :active="active"/> -->
       <transition name="component">
         <router-view :userSettings="userSettings" :key="$route.path" />
       </transition>
@@ -28,12 +28,12 @@ export default {
     }
   },
   beforeMount () {
-    this.$electron.ipcRenderer.send('readSettings')
+    // this.$electron.ipcRenderer.send('readSettings')
 
-    this.$electron.ipcRenderer.on('userSettings', (event, response) => {
-      console.log('user settings', response)
-      this.userSettings = response.settings
-    })
+    // this.$electron.ipcRenderer.on('userSettings', (event, response) => {
+    //   console.log('user settings', response)
+    //   this.userSettings = response.settings
+    // })
   },
   watch: {
     $route: function (val) {
