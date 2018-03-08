@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "author": "Martin Banks <anotherbanksy@gmail.com>",
   "description": "App for running common cli commands/tools",
-  "license": null,
+  "license": "ISC",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -117,5 +117,17 @@
     "webpack": "^3.5.2",
     "webpack-dev-server": "^2.7.1",
     "webpack-hot-middleware": "^2.18.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martin-banks/project-operator.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/martin-banks/project-operator/issues"
+  },
+  "homepage": "https://github.com/martin-banks/project-operator#readme"
 }
