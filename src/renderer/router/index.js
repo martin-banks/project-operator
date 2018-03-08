@@ -5,11 +5,17 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'app-setup',
+    //   component: require('@/views/AppSetup').default
+    // },
     {
       path: '/',
-      name: 'app-setup',
-      component: require('@/views/AppSetup').default
+      name: 'app-builder',
+      component: require('@/views/AppBuilder').default
     },
+
     // {
     //   path: '/setup',
     //   name: 'app-setup',
