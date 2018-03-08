@@ -7,6 +7,8 @@ import settingsFile from './settingsFile'
 
 const user = require('os').userInfo().username
 
+const { spawn, exec } = require('child_process')
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -147,3 +149,62 @@ ipcMain.on('readSettings', e => {
     .catch(console.log)
   })
 })
+
+
+// Project builder
+ipcMain.on('chooseProjectLocation', e => {
+  const reply = data => e.sender.send('chosenLocation', data)
+  
+  dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] }, data => {
+    console.log('browser request', data)
+    reply(data[0])
+  })
+})
+
+ipcMain.on('installDependancies', (e, args) => {
+  const { location } = args
+  const options = {
+    encoding: 'utf8',
+    timeout: 0,
+    maxBuffer: 200 * 1024,
+    killSignal: 'SIGTERM',
+    cwd: location,
+    env: null
+  }
+
+  const child = exec(`npm i`, options)
+  child.stdout.on('data', response => {
+    console.log('install response', { response })
+    e.sender.send('processMessage', response)
+  })
+  child.stderr.on('data', response => {
+    console.log('install error', { response })
+    e.sender.send('processError', response)
+  })
+})
+
+ipcMain.on('startDev', (e, args) => {
+  console.log('Start dev request')
+  const reply = data => e.sender.send('devMessage', data)
+
+  const { location } = args
+  const options = {
+    encoding: 'utf8',
+    timeout: 0,
+    maxBuffer: 200 * 1024,
+    killSignal: 'SIGTERM',
+    cwd: location,
+    env: null
+  }
+
+  const child = exec(`npm run start`, options)
+  child.stdout.on('data', response => {
+    console.log('npm run start message', { response })
+    e.sender.send('processMessage', response)
+  })
+  child.stderr.on('data', response => {
+    console.log('npm run start error', { response })
+    e.sender.send('processError', response)
+  })
+})
+
