@@ -184,10 +184,10 @@ ipcMain.on('installDependancies', (e, args) => {
 })
 
 ipcMain.on('startDev', (e, args) => {
-  console.log('Start dev request')
+  const { location } = args
+  console.log('Start dev request', location)
   const reply = data => e.sender.send('devMessage', data)
 
-  const { location } = args
   const options = {
     encoding: 'utf8',
     timeout: 0,
@@ -197,13 +197,59 @@ ipcMain.on('startDev', (e, args) => {
     env: null
   }
 
-  const child = exec(`npm run start`, options)
+  // exec(`cd ${location} && npm start`, (err, stdout) => {
+  //   if (err) {
+  //     console.log('Error running exec:', err)
+  //     e.sender.send('processError', err)
+  //     return
+  //   }
+  //   console.log('npm run start message: ', stdout)
+  //   e.sender.send('processMessage', stdout)
+  // })
+
+  const child = exec('npm run dev', options)
   child.stdout.on('data', response => {
-    console.log('npm run start message', { response })
+    // console.log('npm run start message', response)
     e.sender.send('processMessage', response)
   })
   child.stderr.on('data', response => {
-    console.log('npm run start error', { response })
+    console.log('npm run start error', response.toString())
+    e.sender.send('processError', response)
+  })
+})
+
+
+ipcMain.on('buildProd', (e, args) => {
+  const { location } = args
+  console.log('Start dev request', location)
+  const reply = data => e.sender.send('devMessage', data)
+
+  const options = {
+    encoding: 'utf8',
+    timeout: 0,
+    maxBuffer: 200 * 1024,
+    killSignal: 'SIGTERM',
+    cwd: location,
+    env: null
+  }
+
+  // exec(`cd ${location} && npm start`, (err, stdout) => {
+  //   if (err) {
+  //     console.log('Error running exec:', err)
+  //     e.sender.send('processError', err)
+  //     return
+  //   }
+  //   console.log('npm run start message: ', stdout)
+  //   e.sender.send('processMessage', stdout)
+  // })
+
+  const child = exec('npm run prod', options)
+  child.stdout.on('data', response => {
+    // console.log('npm run start message', response)
+    e.sender.send('processMessage', response)
+  })
+  child.stderr.on('data', response => {
+    console.log('npm run start error', response.toString())
     e.sender.send('processError', response)
   })
 })

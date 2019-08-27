@@ -14,6 +14,12 @@
     >
       Start dev server
     </button>
+    <button
+      v-if="location"
+      @click="buildProd"
+    >
+      Build for PROD
+    </button>
     <pre v-if="processMessage">processMessage: {{ processMessage }}</pre>
     <pre v-if="processError">processError: {{ processError }}</pre>
   </div>
@@ -54,7 +60,12 @@ export default {
       })
     },
      startDev () {
+       console.log('Starting in location:', this.location)
        this.$electron.ipcRenderer.send('startDev', { location: this.location })
+     },
+     buildProd () {
+       console.log('Building PROD in location:', this.location)
+       this.$electron.ipcRenderer.send('buildProd', { location: this.location })
      },
 
   },
